@@ -6,7 +6,8 @@ import schedule
 import time
 
 parser = argparse.ArgumentParser(description="Routine internet quality checker")
-
+parser.add_argument("-p", "--ping", action="store", nargs="?", type=int, default="5", help="Set timer for ping (in minutes)")
+parser.add_argument("-s", "--speedtest", action="store", nargs="?", type=int, default="6", help="Set timer for ping (in hours)")
 args = parser.parse_args()
 mail_address = "alexbotmailer@gmail.com"
 
@@ -29,8 +30,8 @@ def speedtest():
     print(groups.group(1), groups.group(2), groups.group(3))
     os.system("echo {} | mail -s \"Speed report\" {}".format(response, mail_address))
 
-schedule.every(5).minutes.do(ping)
-schedule.every(6).hours.do(speedtest)
+schedule.every(args.ping).minutes.do(ping)
+schedule.every(args.speedtest).hours.do(speedtest)
 
 while True:
     schedule.run_pending() # Run schedule
