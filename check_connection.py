@@ -28,7 +28,7 @@ def speedtest():
     groups = re.search(r"Ping: (.*) ms.*Download: (.*) Mbit.*Upload: (.*) Mbit", response, re.S)
     print(response)
     print(groups.group(1), groups.group(2), groups.group(3))
-    os.system("echo {} | mail -s \"Speed report\" {}".format(response, mail_address))
+    os.system("echo \"{}\" | mail -s \"Speed report\" {}".format(response, mail_address))
 
 schedule.every(args.ping).minutes.do(ping)
 schedule.every(args.speedtest).hours.do(speedtest)
